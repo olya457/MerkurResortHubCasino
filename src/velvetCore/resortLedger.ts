@@ -1,0 +1,337 @@
+import {resortArt} from './assetLedger';
+import type {GatherNote, PlateNote, VenueNote} from './types';
+
+export const venues: VenueNote[] = [
+  {
+    id: 'grand-salon',
+    name: 'Grand Restaurant',
+    hours: '07:00 - 22:30',
+    phone: '+49 555 210 101',
+    image: require('../assets/placeArchive/velvet_grand_salon_8101.png'),
+    description:
+      'Grand Restaurant welcomes guests with an elegant atmosphere and a menu inspired by European cuisine. Fresh seasonal ingredients and carefully selected wines create a refined dining experience. The restaurant is ideal for breakfast, business lunches, and evening dinners. Friendly staff ensures attentive service throughout the day.\n\nThe spacious interior combines modern comfort with timeless design. Large windows provide natural light during the day and a cozy ambiance in the evening. Private tables are available for special occasions and celebrations. Reservations are recommended during dinner hours.',
+  },
+  {
+    id: 'skyline-cafe',
+    name: 'Skyline Cafe',
+    hours: '08:00 - 21:00',
+    phone: '+49 555 210 102',
+    image: require('../assets/placeArchive/skyline_cafe_atrium_8102.png'),
+    description:
+      'Skyline Cafe offers specialty coffee, homemade pastries, and light meals throughout the day. Guests can relax in a comfortable atmosphere while enjoying freshly prepared desserts. The cafe is an excellent place for informal meetings or a quiet afternoon break. A wide selection of beverages is available.\n\nThe modern interior features comfortable seating and warm lighting. Fresh bakery items are prepared daily using premium ingredients. Outdoor seating is available during favorable weather conditions. Complimentary Wi-Fi is provided for all visitors.',
+  },
+  {
+    id: 'wellness-blue',
+    name: 'Wellness Spa',
+    hours: '09:00 - 20:00',
+    phone: '+49 555 210 103',
+    image: require('../assets/placeArchive/quiet_wellness_blue_8103.png'),
+    description:
+      'The Wellness Spa provides a peaceful environment designed for relaxation and recovery. Guests can enjoy massages, facial treatments, wellness rituals, and premium body therapies. Professional therapists personalize every treatment according to individual preferences. High-quality products are used during every session.\n\nModern treatment rooms create a calm and luxurious atmosphere. Sauna and relaxation areas are available before and after appointments. Daily wellness packages include several combined treatments. Advance booking is recommended to ensure preferred appointment times.',
+  },
+  {
+    id: 'fitness-brass',
+    name: 'Fitness Center',
+    hours: '06:00 - 23:00',
+    phone: '+49 555 210 104',
+    image: require('../assets/placeArchive/brass_fitness_room_8104.png'),
+    description:
+      'The Fitness Center is equipped with modern cardio and strength-training equipment suitable for every fitness level. Guests can maintain their workout routine while enjoying their stay. Spacious training areas provide a comfortable exercise environment. Complimentary towels and water stations are available.\n\nProfessional trainers are available upon request for personalized sessions. Functional training equipment supports a variety of workout styles. The facility is cleaned regularly throughout the day for guest comfort. Access is included with every hotel reservation.',
+  },
+  {
+    id: 'wine-cellar',
+    name: 'Wine Lounge',
+    hours: '16:00 - 00:00',
+    phone: '+49 555 210 105',
+    image: require('../assets/placeArchive/cellar_lounge_gold_8105.png'),
+    description:
+      'Wine Lounge offers an extensive collection of international and regional wines. Guests can discover carefully selected vintages paired with gourmet snacks and cheese platters. The elegant atmosphere makes it perfect for evening relaxation. Knowledgeable staff are available to recommend wine pairings.\n\nComfortable seating and ambient lighting create an inviting environment. Seasonal tasting events are hosted throughout the year. Premium spirits and signature cocktails are also available. Reservations are recommended for group visits.',
+  },
+  {
+    id: 'pool-lantern',
+    name: 'Indoor Pool',
+    hours: '07:00 - 21:00',
+    phone: '+49 555 210 106',
+    image: require('../assets/placeArchive/indoor_pool_lantern_8106.png'),
+    description:
+      'The indoor swimming pool provides a relaxing environment for guests of all ages. Comfortable loungers surround the heated pool area, creating the perfect place to unwind. Natural lighting enhances the welcoming atmosphere throughout the day. Towels are provided free of charge.\n\nAdjacent relaxation zones offer additional comfort after swimming. Families are welcome during designated hours. The pool area is monitored to ensure guest safety. Daily maintenance guarantees excellent water quality.',
+  },
+  {
+    id: 'conference-chamber',
+    name: 'Conference Center',
+    hours: '08:00 - 18:00',
+    phone: '+49 555 210 107',
+    image: require('../assets/placeArchive/conference_chamber_8107.png'),
+    description:
+      'The Conference Center offers flexible meeting rooms suitable for business events, seminars, and presentations. Modern audiovisual equipment supports professional conferences of various sizes. Comfortable seating arrangements can be customized for different event formats. High-speed internet is available throughout the facility.\n\nDedicated event coordinators assist with planning and logistics. Catering services can be arranged for meetings and conferences. Private breakout rooms provide additional working space. Reservations are available for both small and large corporate events.',
+  },
+  {
+    id: 'garden-dusk',
+    name: 'Garden Terrace',
+    hours: '10:00 - 22:00',
+    phone: '+49 555 210 108',
+    image: require('../assets/placeArchive/garden_terrace_dusk_8108.png'),
+    description:
+      'Garden Terrace offers outdoor seating surrounded by landscaped gardens and peaceful walking paths. Guests can enjoy refreshing drinks, light meals, and seasonal specialties in an open-air setting. The relaxed atmosphere makes it an ideal place for social gatherings or quiet moments. Live music is occasionally featured during evenings.\n\nComfortable lounge furniture provides a premium outdoor experience. Decorative lighting creates a cozy atmosphere after sunset. The terrace is open throughout the warmer months, weather permitting. Friendly service ensures a pleasant visit for every guest.',
+  },
+];
+
+export const gathers: GatherNote[] = [
+  {
+    id: 'vintage-orbit',
+    name: 'Wine Tasting Evening',
+    date: '18 July 2026',
+    time: '19:00',
+    location: 'Wine Lounge',
+    short: 'Premium wines with expert sommelier.',
+    image: require('../assets/gatherArchive/vintage_orbit_9101.png'),
+    description:
+      'Discover a curated selection of regional and international wines during an elegant tasting experience. Professional sommeliers introduce each wine while explaining its origin and flavor profile. Guests can enjoy carefully paired gourmet appetizers throughout the evening. The event is suitable for both beginners and experienced wine enthusiasts.\n\nThe relaxed atmosphere encourages conversation and new discoveries. Limited seating creates an intimate experience for every participant. Seasonal wine collections are featured throughout the year. Advance reservation is recommended due to limited availability.',
+  },
+  {
+    id: 'jazz-garden',
+    name: 'Live Jazz Night',
+    date: '20 July 2026',
+    time: '20:00',
+    location: 'Garden Terrace',
+    short: 'Relax with live jazz music.',
+    image: require('../assets/gatherArchive/jazz_garden_9102.png'),
+    description:
+      'Spend an unforgettable evening enjoying live jazz performances beneath the evening sky. Professional musicians create a sophisticated atmosphere with classic and contemporary pieces. Guests may order food and drinks directly from the terrace menu throughout the performance. Comfortable seating provides excellent views of the stage.\n\nSoft ambient lighting enhances the elegant outdoor experience. The event welcomes couples, families, and individual visitors alike. Seasonal cocktails are available exclusively during the concert. Weather permitting, performances continue until late evening.',
+  },
+  {
+    id: 'morning-yoga',
+    name: 'Wellness Morning Yoga',
+    date: '21 July 2026',
+    time: '08:00',
+    location: 'Wellness Spa',
+    short: 'Relaxing yoga for every guest.',
+    image: require('../assets/gatherArchive/morning_yoga_9103.png'),
+    description:
+      'Begin the day with a peaceful guided yoga session led by experienced instructors. Gentle exercises improve flexibility, posture, and overall wellbeing. The session is suitable for beginners as well as experienced participants. Yoga mats and refreshments are provided.\n\nThe class takes place in a calm wellness environment designed for relaxation. Soft music and natural lighting create a comfortable atmosphere. Breathing exercises help reduce stress and increase energy. Participation is included for hotel guests.',
+  },
+  {
+    id: 'chef-table',
+    name: "Chef's Signature Dinner",
+    date: '23 July 2026',
+    time: '18:30',
+    location: 'Grand Restaurant',
+    short: 'Exclusive gourmet tasting menu experience.',
+    image: require('../assets/gatherArchive/chef_table_9104.png'),
+    description:
+      'Enjoy a carefully prepared multi-course dinner created by the executive chef. Every course highlights seasonal ingredients and modern European cuisine. Selected wine pairings complement each dish throughout the evening. Guests experience exceptional service in an elegant setting.\n\nThe tasting menu changes regularly according to seasonal availability. Premium local ingredients are combined with international culinary techniques. Every dish is presented with artistic attention to detail. Reservations are required before the event.',
+  },
+  {
+    id: 'cocktail-class',
+    name: 'Cocktail Masterclass',
+    date: '25 July 2026',
+    time: '17:00',
+    location: 'Wine Lounge',
+    short: 'Learn premium cocktail preparation techniques.',
+    image: require('../assets/gatherArchive/cocktail_class_9105.png'),
+    description:
+      'Professional bartenders demonstrate how signature cocktails are prepared using premium ingredients. Guests create several classic and modern drinks during the interactive session. Expert tips help participants improve presentation and mixing techniques. Every participant enjoys tasting each completed cocktail.\n\nThe workshop combines entertainment with practical experience. Fresh ingredients and premium spirits are provided throughout the class. The relaxed environment encourages creativity and conversation. Places are limited for a personalized experience.',
+  },
+  {
+    id: 'family-cinema',
+    name: 'Family Movie Night',
+    date: '26 July 2026',
+    time: '20:30',
+    location: 'Garden Terrace',
+    short: 'Outdoor cinema under the stars.',
+    image: require('../assets/gatherArchive/family_cinema_9106.png'),
+    description:
+      'Enjoy a family-friendly movie screening in a beautiful outdoor setting. Comfortable seating and a large projection screen create a memorable cinema experience. Fresh popcorn, snacks, and beverages are available throughout the evening. Popular family films are selected each week.\n\nThe atmosphere is relaxed and welcoming for guests of all ages. Blankets are available during cooler evenings. Children and adults can enjoy quality entertainment together. Seating is available on a first-come basis.',
+  },
+  {
+    id: 'business-breakfast',
+    name: 'Business Networking Breakfast',
+    date: '28 July 2026',
+    time: '08:30',
+    location: 'Conference Center',
+    short: 'Meet professionals over breakfast.',
+    image: require('../assets/gatherArchive/business_breakfast_9107.png'),
+    description:
+      'Start your morning by connecting with business professionals from various industries. Guests enjoy a premium breakfast buffet while expanding their professional network. Informal conversations create valuable opportunities for future collaboration. The event welcomes both hotel guests and invited visitors.\n\nComfortable seating encourages productive discussions. Fresh coffee and breakfast specialties are served throughout the session. Networking activities are facilitated by experienced hosts. Business cards are recommended for participants.',
+  },
+  {
+    id: 'piano-evening',
+    name: 'Piano Lounge Evening',
+    date: '30 July 2026',
+    time: '19:30',
+    location: 'Skyline Cafe',
+    short: 'Elegant piano performance with desserts.',
+    image: require('../assets/gatherArchive/piano_evening_9108.png'),
+    description:
+      'Relax with live piano music performed by talented musicians in an intimate cafe atmosphere. Guests can enjoy handcrafted desserts, specialty coffee, and premium beverages during the performance. The elegant setting creates the perfect ending to the day. Soft lighting enhances the sophisticated ambiance.\n\nThe music program includes timeless classics and modern arrangements. Comfortable lounge seating provides an enjoyable listening experience. Seasonal dessert specialties are available exclusively during the event. Reservations are recommended for preferred seating.',
+  },
+];
+
+export const plates: PlateNote[] = [
+  {
+    id: 'tenderloin-astra',
+    name: 'Grilled Beef Tenderloin',
+    minutes: 25,
+    ingredients: 'Beef tenderloin, asparagus, herb butter, roasted potatoes',
+    price: 32,
+    image: require('../assets/plateArchive/tenderloin_astra_6201.png'),
+  },
+  {
+    id: 'salmon-herb',
+    name: 'Herb Roasted Salmon',
+    minutes: 20,
+    ingredients: 'Atlantic salmon, lemon, fresh herbs, seasonal vegetables',
+    price: 28,
+    image: require('../assets/plateArchive/salmon_herb_6202.png'),
+  },
+  {
+    id: 'risotto-truffle',
+    name: 'Truffle Mushroom Risotto',
+    minutes: 18,
+    ingredients: 'Arborio rice, wild mushrooms, parmesan, truffle oil',
+    price: 22,
+    image: require('../assets/plateArchive/risotto_truffle_6203.png'),
+  },
+  {
+    id: 'chicken-rosemary',
+    name: 'Chicken Supreme',
+    minutes: 22,
+    ingredients: 'Chicken breast, mashed potatoes, baby carrots, rosemary sauce',
+    price: 24,
+    image: require('../assets/plateArchive/spicy_wrap_6213.png'),
+  },
+  {
+    id: 'pasta-mediterranean',
+    name: 'Mediterranean Pasta',
+    minutes: 16,
+    ingredients: 'Penne, cherry tomatoes, olives, basil, parmesan',
+    price: 18,
+    image: require('../assets/plateArchive/pasta_mediterranean_6205.png'),
+  },
+  {
+    id: 'ribs-glaze',
+    name: 'BBQ Pork Ribs',
+    minutes: 30,
+    ingredients: 'Pork ribs, BBQ glaze, fries, coleslaw',
+    price: 27,
+    image: require('../assets/plateArchive/ribs_glaze_6206.png'),
+  },
+  {
+    id: 'burger-brioche',
+    name: 'Gourmet Cheeseburger',
+    minutes: 18,
+    ingredients: 'Angus beef, cheddar cheese, lettuce, tomato, brioche bun',
+    price: 19,
+    image: require('../assets/plateArchive/burger_brioche_6207.png'),
+  },
+  {
+    id: 'caesar-garden',
+    name: 'Caesar Salad',
+    minutes: 12,
+    ingredients: 'Romaine lettuce, grilled chicken, parmesan, croutons, Caesar dressing',
+    price: 16,
+    image: require('../assets/plateArchive/caesar_garden_6208.png'),
+  },
+  {
+    id: 'burrata-caprese',
+    name: 'Burrata Caprese',
+    minutes: 10,
+    ingredients: 'Burrata cheese, tomatoes, basil, olive oil',
+    price: 17,
+    image: require('../assets/plateArchive/burrata_caprese_6209.png'),
+  },
+  {
+    id: 'linguine-sea',
+    name: 'Seafood Linguine',
+    minutes: 24,
+    ingredients: 'Linguine, shrimp, mussels, garlic, white wine sauce',
+    price: 29,
+    image: require('../assets/plateArchive/linguine_sea_6210.png'),
+  },
+  {
+    id: 'ribeye-pepper',
+    name: 'Grilled Ribeye Steak',
+    minutes: 28,
+    ingredients: 'Ribeye steak, grilled vegetables, pepper sauce',
+    price: 36,
+    image: require('../assets/plateArchive/ribeye_pepper_6211.png'),
+  },
+  {
+    id: 'margherita-basil',
+    name: 'Classic Margherita Pizza',
+    minutes: 15,
+    ingredients: 'Mozzarella, tomato sauce, basil, olive oil',
+    price: 15,
+    image: require('../assets/plateArchive/margherita_basil_6212.png'),
+  },
+  {
+    id: 'spicy-wrap',
+    name: 'Spicy Chicken Wrap',
+    minutes: 14,
+    ingredients: 'Grilled chicken, tortilla, lettuce, tomato, spicy mayo',
+    price: 14,
+    image: require('../assets/plateArchive/spicy_wrap_6213.png'),
+  },
+  {
+    id: 'pumpkin-soup',
+    name: 'Creamy Pumpkin Soup',
+    minutes: 12,
+    ingredients: 'Pumpkin, cream, herbs, roasted seeds',
+    price: 11,
+    image: require('../assets/plateArchive/pumpkin_soup_6214.png'),
+  },
+  {
+    id: 'club-sandwich',
+    name: 'Club Sandwich',
+    minutes: 15,
+    ingredients: 'Chicken, bacon, tomato, lettuce, toasted bread',
+    price: 16,
+    image: require('../assets/plateArchive/club_sandwich_6215.png'),
+  },
+  {
+    id: 'beef-tacos',
+    name: 'Beef Tacos',
+    minutes: 17,
+    ingredients: 'Seasoned beef, tortillas, salsa, cheddar cheese',
+    price: 18,
+    image: require('../assets/plateArchive/beef_tacos_6216.png'),
+  },
+  {
+    id: 'vegetable-wok',
+    name: 'Vegetable Stir Fry',
+    minutes: 16,
+    ingredients: 'Broccoli, peppers, carrots, mushrooms, soy sauce',
+    price: 17,
+    image: require('../assets/plateArchive/vegetable_wok_6217.png'),
+  },
+  {
+    id: 'lava-cake',
+    name: 'Chocolate Lava Cake',
+    minutes: 14,
+    ingredients: 'Dark chocolate, butter, vanilla ice cream',
+    price: 10,
+    image: require('../assets/plateArchive/lava_cake_6218.png'),
+  },
+  {
+    id: 'cheesecake-berry',
+    name: 'New York Cheesecake',
+    minutes: 8,
+    ingredients: 'Cream cheese, biscuit base, berry sauce',
+    price: 9,
+    image: require('../assets/plateArchive/cheesecake_berry_6219.png'),
+  },
+  {
+    id: 'fruit-platter',
+    name: 'Seasonal Fruit Platter',
+    minutes: 7,
+    ingredients: 'Fresh seasonal fruits, mint, honey drizzle',
+    price: 12,
+    image: require('../assets/plateArchive/fruit_platter_6220.png'),
+  },
+];
+
+export const todayOffer = {
+  title: 'Casino Evening Package',
+  text: 'Exclusive access to the grand gaming floor with complimentary cocktails.',
+  image: resortArt.lounge,
+};
