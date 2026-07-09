@@ -1,14 +1,17 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {ScreenChrome} from '../velvetUi/ScreenChrome';
 import {SectionTitle} from '../velvetUi/SectionTitle';
 import {CompactKeyboardInput} from '../velvetUi/CompactKeyboardInput';
+import {FadeLift} from '../velvetUi/FadeLift';
 import {palette} from '../velvetCore/palette';
+import {storageKeys} from '../velvetCore/storageKeys';
 
 const faqs = [
   ['What time is check-out?', 'Check-out is at 12:00 noon.'],
   ['Is breakfast included in my stay?', 'Breakfast is included for Deluxe Suite guests.'],
-  ['Can I reserve a window table?', 'Yes, concierge can arrange a preferred table when available.'],
+  ['Can I note a window table?', 'Yes, add the request here and keep it ready for the dining desk.'],
 ];
 
 type ChatMessage = {
@@ -18,64 +21,81 @@ type ChatMessage = {
 };
 
 const initialMessages: ChatMessage[] = [
-  {id: 'hello', from: 'concierge', text: 'Guten Abend. How may I assist you this evening?'},
-  {id: 'sample-guest', from: 'guest', text: "I'd like to arrange a restaurant reservation for two, tomorrow at 20:00."},
+  {id: 'hello', from: 'concierge', text: 'Guten Abend. I can keep your stay requests ready for reception handoff.'},
+  {id: 'sample-guest', from: 'guest', text: 'Please note a window table request for two tomorrow at 20:00.'},
   {
     id: 'sample-concierge',
     from: 'concierge',
-    text: 'Of course. I have reserved a table for two at 20:00. Shall I add any special requests, such as a window seat?',
+    text: 'Saved to your local stay notes. Please show this request to the reception or dining desk when convenient.',
   },
-  {id: 'sample-guest-2', from: 'guest', text: 'A window table would be lovely, thank you.'},
 ];
 
 function makeReply(question: string) {
   const text = question.toLowerCase();
 
   if (text.includes('breakfast')) {
-    return 'Breakfast is included for Deluxe Suite guests. I can also reserve your preferred time.';
+    return 'Breakfast is included for Deluxe Suite guests. Add your preferred time here and keep it ready offline.';
   }
   if (text.includes('check') || text.includes('checkout')) {
     return 'Check-out is at 12:00 noon. Late check-out can be requested at the front desk.';
   }
   if (text.includes('taxi') || text.includes('transfer')) {
-    return 'I can arrange a taxi from the main entrance. Please share your destination and preferred time.';
+    return 'I can store the transfer details locally. Please share your destination and preferred time.';
   }
   if (text.includes('table') || text.includes('restaurant') || text.includes('dinner')) {
-    return 'Yes, I can request a restaurant table for you. Please send the time and number of guests.';
+    return 'I can keep a dining request in your stay notes. Please add the time and number of guests.';
   }
 
-  return 'Thank you. I have received your request and will assist you shortly.';
+  return 'Saved to your local stay notes for reception handoff.';
 }
 
 export function ConciergeWire(): React.JSX.Element {
   const [open, setOpen] = useState(0);
   const [draft, setDraft] = useState('');
   const [messages, setMessages] = useState(initialMessages);
+  const [saved, setSaved] = useState(false);
 
-  const send = () => {
+  useEffect(() => {
+    AsyncStorage.getItem(storageKeys.conciergeNotes).then(value => {
+      if (value) {
+        setMessages(JSON.parse(value));
+        setSaved(true);
+      }
+    });
+  }, []);
+
+  const send = async () => {
     const text = draft.trim();
     if (!text) {
       return;
     }
 
-    setMessages(current => [
-      ...current,
+    const nextMessages: ChatMessage[] = [
+      ...messages,
       {id: `guest-${Date.now()}`, from: 'guest', text},
       {id: `concierge-${Date.now()}`, from: 'concierge', text: makeReply(text)},
-    ]);
+    ];
+    setMessages(nextMessages);
+    await AsyncStorage.setItem(storageKeys.conciergeNotes, JSON.stringify(nextMessages));
+    setSaved(true);
     setDraft('');
   };
 
   return (
     <ScreenChrome>
       <SectionTitle kicker="SUPPORT" title="Concierge" />
+      {saved && (
+        <FadeLift style={styles.notice}>
+          <Text style={styles.noticeText}>Concierge notes are stored on this device for your stay.</Text>
+        </FadeLift>
+      )}
       <View style={styles.chat}>
-        {messages.map(message => {
+        {messages.map((message, index) => {
           const guest = message.from === 'guest';
           return (
-            <View key={message.id} style={guest ? styles.bubbleRight : styles.bubbleLeft}>
+            <FadeLift key={message.id} delay={index * 35} distance={8} style={guest ? styles.bubbleRight : styles.bubbleLeft}>
               <Text style={guest ? styles.bubbleDark : styles.bubbleText}>{message.text}</Text>
-            </View>
+            </FadeLift>
           );
         })}
         <View style={styles.messageRow}>
@@ -109,6 +129,18 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 25,
     paddingTop: 16,
+  },
+  notice: {
+    borderColor: palette.gold,
+    borderWidth: 1,
+    marginBottom: 14,
+    padding: 14,
+  },
+  noticeText: {
+    color: palette.text,
+    fontSize: 13,
+    fontWeight: '700',
+    lineHeight: 19,
   },
   bubbleLeft: {
     alignSelf: 'flex-start',

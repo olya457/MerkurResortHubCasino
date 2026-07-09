@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
     justifyContent: 'center',
-    minWidth: 48,
+    minWidth: 0,
   },
   iconCup: {
     alignItems: 'center',

@@ -3,12 +3,14 @@ import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {ScreenChrome} from '../velvetUi/ScreenChrome';
 import {SectionTitle} from '../velvetUi/SectionTitle';
+import {FadeLift} from '../velvetUi/FadeLift';
 import {palette} from '../velvetCore/palette';
 import {plates} from '../velvetCore/resortLedger';
 import {storageKeys} from '../velvetCore/storageKeys';
 
 export function CulinaryLedger(): React.JSX.Element {
   const [basket, setBasket] = useState<string[]>([]);
+  const [savedRequest, setSavedRequest] = useState(false);
   const selected = useMemo(() => plates.filter(plate => basket.includes(plate.id)), [basket]);
   const total = selected.reduce((sum, plate) => sum + plate.price, 0);
 
@@ -31,6 +33,7 @@ export function CulinaryLedger(): React.JSX.Element {
   const order = () => {
     if (basket.length > 0) {
       setBasket([]);
+      setSavedRequest(true);
     }
   };
 
@@ -38,7 +41,7 @@ export function CulinaryLedger(): React.JSX.Element {
     <ScreenChrome>
       <SectionTitle
         kicker="CULINARY"
-        title="Restaurant"
+        title="Dining Notes"
         right={
           basket.length > 0 ? (
             <View style={styles.cart}>
@@ -48,26 +51,33 @@ export function CulinaryLedger(): React.JSX.Element {
           ) : null
         }
       />
-      {plates.map(plate => {
+      {savedRequest && (
+        <FadeLift style={styles.notice}>
+          <Text style={styles.noticeText}>Dining request saved to your offline stay notes.</Text>
+        </FadeLift>
+      )}
+      {plates.map((plate, index) => {
         const picked = basket.includes(plate.id);
         return (
-          <Pressable key={plate.id} style={[styles.plate, picked && styles.platePicked]} onPress={() => toggle(plate.id)}>
-            <Image source={plate.image} style={styles.plateImage} />
-            <View style={styles.plateText}>
-              <Text numberOfLines={2} adjustsFontSizeToFit style={styles.plateTitle}>
-                {plate.name}
-              </Text>
-              <Text style={styles.meta}>{plate.minutes} min preparation</Text>
-              <Text numberOfLines={2} style={styles.ingredients}>
-                {plate.ingredients}
-              </Text>
-            </View>
-            <Text style={styles.price}>€ {plate.price}</Text>
-          </Pressable>
+          <FadeLift key={plate.id} delay={index * 24}>
+            <Pressable style={[styles.plate, picked && styles.platePicked]} onPress={() => toggle(plate.id)}>
+              <Image source={plate.image} style={styles.plateImage} />
+              <View style={styles.plateText}>
+                <Text numberOfLines={2} adjustsFontSizeToFit style={styles.plateTitle}>
+                  {plate.name}
+                </Text>
+                <Text style={styles.meta}>{plate.minutes} min preparation</Text>
+                <Text numberOfLines={2} style={styles.ingredients}>
+                  {plate.ingredients}
+                </Text>
+              </View>
+              <Text style={styles.price}>€ {plate.price}</Text>
+            </Pressable>
+          </FadeLift>
         );
       })}
       {basket.length > 0 && (
-        <View style={styles.summary}>
+        <FadeLift style={styles.summary}>
           {selected.map(plate => (
             <View key={plate.id} style={styles.summaryRow}>
               <Text style={styles.summaryName}>{plate.name}</Text>
@@ -79,12 +89,12 @@ export function CulinaryLedger(): React.JSX.Element {
             <Text style={styles.total}>€ {total}</Text>
           </View>
           <Pressable style={styles.button} onPress={order}>
-            <Text style={styles.buttonText}>ORDER</Text>
+            <Text style={styles.buttonText}>SAVE REQUEST</Text>
           </Pressable>
           <Pressable onPress={() => setBasket([])} hitSlop={12}>
             <Text style={styles.cancel}>CANCEL</Text>
           </Pressable>
-        </View>
+        </FadeLift>
       )}
     </ScreenChrome>
   );
@@ -96,6 +106,18 @@ const styles = StyleSheet.create({
     height: 42,
     justifyContent: 'center',
     width: 42,
+  },
+  notice: {
+    borderColor: palette.gold,
+    borderWidth: 1,
+    marginBottom: 14,
+    padding: 14,
+  },
+  noticeText: {
+    color: palette.text,
+    fontSize: 13,
+    fontWeight: '700',
+    lineHeight: 19,
   },
   cartCount: {
     backgroundColor: palette.text,

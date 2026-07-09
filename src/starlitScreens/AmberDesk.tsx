@@ -1,5 +1,5 @@
-import React from 'react';
-import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import React, {useState} from 'react';
+import {Image, Modal, Pressable, StyleSheet, Text, View} from 'react-native';
 import {useNavigation, type NavigationProp} from '@react-navigation/native';
 import {ScreenChrome} from '../velvetUi/ScreenChrome';
 import {SectionTitle} from '../velvetUi/SectionTitle';
@@ -8,39 +8,123 @@ import {resortArt} from '../velvetCore/assetLedger';
 import {todayOffer} from '../velvetCore/resortLedger';
 import type {MerkurTabParamList} from '../velvetCore/routeTypes';
 
+const stayDates = [
+  '18 - 21 Jul',
+  '22 - 25 Jul',
+  '26 - 29 Jul',
+  '30 Jul - 02 Aug',
+  '03 - 06 Aug',
+  '07 - 10 Aug',
+];
+const stayRooms = ['204', '318', '512', '724', '806', '912'];
+
 export function AmberDesk(): React.JSX.Element {
   const navigation = useNavigation<NavigationProp<MerkurTabParamList>>();
+  const [selectedDate, setSelectedDate] = useState('');
+  const [selectedRoom, setSelectedRoom] = useState('');
+  const [isStayPickerOpen, setStayPickerOpen] = useState(false);
 
   return (
     <ScreenChrome>
-      <SectionTitle kicker="GOOD EVENING" title="MERKUR Resort" />
-      <Pressable style={styles.reservation} onPress={() => navigation.navigate('TaxiRibbon')}>
+      <SectionTitle kicker="GOOD EVENING" title="Hello, guest" />
+      <View style={styles.reservation}>
         <View style={styles.row}>
-          <Text style={styles.label}>YOUR RESERVATION</Text>
-          <Text style={styles.active}>▪ ACTIVE</Text>
+          <Text style={styles.label}>OFFLINE STAY WALLET</Text>
+          <Pressable
+            hitSlop={8}
+            onPress={() => setStayPickerOpen(true)}
+            style={styles.readyButton}>
+            <Text style={styles.active}>READY</Text>
+          </Pressable>
         </View>
         <View style={styles.columns}>
           <View style={styles.columnWide}>
-            <Text style={styles.label}>BOOKING CODE</Text>
-            <Text adjustsFontSizeToFit minimumFontScale={0.62} numberOfLines={1} style={styles.big}>
-              MK-4821
-            </Text>
-          </View>
-          <View style={styles.columnWide}>
             <Text style={styles.label}>STAY DATES</Text>
-            <Text adjustsFontSizeToFit minimumFontScale={0.72} numberOfLines={1} style={styles.mid}>
-              07 - 12 Jul
+            <Text
+              adjustsFontSizeToFit
+              minimumFontScale={0.72}
+              numberOfLines={1}
+              style={[styles.mid, !selectedDate && styles.placeholder]}>
+              {selectedDate || 'Choose date'}
             </Text>
           </View>
           <View style={styles.column}>
             <Text style={styles.label}>ROOM</Text>
-            <Text style={styles.big}>512</Text>
+            <Text style={[styles.big, !selectedRoom && styles.placeholder]}>
+              {selectedRoom || 'Choose'}
+            </Text>
           </View>
         </View>
-        <Text style={styles.muted}>Deluxe Suite · Check-in 15:00 · Floor 5</Text>
-      </Pressable>
+        <Text style={styles.muted}>
+          Select stay details when you are ready.
+        </Text>
+      </View>
+      <Modal transparent animationType="fade" visible={isStayPickerOpen}>
+        <View style={styles.modalShade}>
+          <Pressable
+            accessibilityLabel="Close stay picker"
+            style={styles.modalBackdrop}
+            onPress={() => setStayPickerOpen(false)}
+          />
+          <View style={styles.modalCard}>
+            <View style={styles.row}>
+              <Text style={styles.modalTitle}>Choose stay</Text>
+              <Pressable hitSlop={8} onPress={() => setStayPickerOpen(false)}>
+                <Text style={styles.close}>Close</Text>
+              </Pressable>
+            </View>
+            <Text style={styles.modalLabel}>DATE</Text>
+            <View style={styles.optionGrid}>
+              {stayDates.map(date => (
+                <Pressable
+                  key={date}
+                  onPress={() => setSelectedDate(date)}
+                  style={[
+                    styles.option,
+                    selectedDate === date && styles.optionSelected,
+                  ]}>
+                  <Text
+                    style={[
+                      styles.optionText,
+                      selectedDate === date && styles.optionTextSelected,
+                    ]}>
+                    {date}
+                  </Text>
+                </Pressable>
+              ))}
+            </View>
+            <Text style={styles.modalLabel}>ROOM</Text>
+            <View style={styles.optionGrid}>
+              {stayRooms.map(room => (
+                <Pressable
+                  key={room}
+                  onPress={() => setSelectedRoom(room)}
+                  style={[
+                    styles.option,
+                    selectedRoom === room && styles.optionSelected,
+                  ]}>
+                  <Text
+                    style={[
+                      styles.optionText,
+                      selectedRoom === room && styles.optionTextSelected,
+                    ]}>
+                    {room}
+                  </Text>
+                </Pressable>
+              ))}
+            </View>
+            <Pressable
+              style={styles.doneButton}
+              onPress={() => setStayPickerOpen(false)}>
+              <Text style={styles.doneText}>DONE</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
       <Text style={styles.blockLabel}>TODAY'S OFFER</Text>
-      <Pressable style={styles.offer} onPress={() => navigation.navigate('CulinaryLedger')}>
+      <Pressable
+        style={styles.offer}
+        onPress={() => navigation.navigate('CalendarGlow')}>
         <Image source={todayOffer.image} style={styles.offerImage} />
         <View style={styles.offerText}>
           <View style={styles.row}>
@@ -52,15 +136,19 @@ export function AmberDesk(): React.JSX.Element {
       </Pressable>
       <Text style={styles.blockLabel}>EXPLORE</Text>
       <View style={styles.grid}>
-        <Pressable style={styles.tile} onPress={() => navigation.navigate('SalonMap')}>
+        <Pressable
+          style={styles.tile}
+          onPress={() => navigation.navigate('SalonMap')}>
           <Image source={resortArt.pool} style={styles.tileImage} />
           <Text style={styles.tileTitle}>Spa & Wellness</Text>
           <Text style={styles.tileCopy}>Relax and rejuvenate</Text>
         </Pressable>
-        <Pressable style={styles.tile} onPress={() => navigation.navigate('CulinaryLedger')}>
+        <Pressable
+          style={styles.tile}
+          onPress={() => navigation.navigate('CulinaryLedger')}>
           <Image source={resortArt.restaurant} style={styles.tileImage} />
           <Text style={styles.tileTitle}>Fine Dining</Text>
-          <Text style={styles.tileCopy}>Seasonal resort cuisine</Text>
+          <Text style={styles.tileCopy}>Save dining requests</Text>
         </Pressable>
       </View>
     </ScreenChrome>
@@ -86,9 +174,14 @@ const styles = StyleSheet.create({
     letterSpacing: 3,
   },
   active: {
-    color: palette.gold,
+    color: palette.ink,
     fontSize: 11,
     fontWeight: '900',
+  },
+  readyButton: {
+    backgroundColor: palette.gold,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
   },
   columns: {
     borderTopColor: 'rgba(39, 80, 127, 0.65)',
@@ -106,7 +199,7 @@ const styles = StyleSheet.create({
   },
   column: {
     alignItems: 'flex-end',
-    minWidth: 54,
+    minWidth: 92,
   },
   big: {
     color: palette.text,
@@ -122,10 +215,85 @@ const styles = StyleSheet.create({
     letterSpacing: 0,
     marginTop: 14,
   },
+  placeholder: {
+    color: '#6F8DAA',
+  },
   muted: {
     color: palette.muted,
     fontSize: 12,
     marginTop: 20,
+  },
+  modalShade: {
+    alignItems: 'center',
+    backgroundColor: 'rgba(2, 8, 15, 0.72)',
+    flex: 1,
+    justifyContent: 'center',
+    padding: 22,
+  },
+  modalBackdrop: {
+    ...StyleSheet.absoluteFillObject,
+  },
+  modalCard: {
+    backgroundColor: palette.deep,
+    borderColor: palette.line,
+    borderWidth: 1,
+    maxWidth: 420,
+    padding: 20,
+    width: '100%',
+  },
+  modalTitle: {
+    color: palette.text,
+    fontSize: 20,
+    fontWeight: '900',
+  },
+  close: {
+    color: palette.gold,
+    fontSize: 12,
+    fontWeight: '900',
+  },
+  modalLabel: {
+    color: palette.muted,
+    fontSize: 11,
+    fontWeight: '800',
+    letterSpacing: 3,
+    marginTop: 22,
+  },
+  optionGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 12,
+    marginTop: 14,
+  },
+  option: {
+    borderColor: palette.line,
+    borderWidth: 1,
+    minWidth: 116,
+    paddingHorizontal: 16,
+    paddingVertical: 15,
+  },
+  optionSelected: {
+    backgroundColor: palette.gold,
+    borderColor: palette.gold,
+  },
+  optionText: {
+    color: palette.text,
+    fontSize: 14,
+    fontWeight: '800',
+    textAlign: 'center',
+  },
+  optionTextSelected: {
+    color: palette.ink,
+  },
+  doneButton: {
+    alignItems: 'center',
+    backgroundColor: palette.gold,
+    marginTop: 24,
+    paddingVertical: 14,
+  },
+  doneText: {
+    color: palette.ink,
+    fontSize: 13,
+    fontWeight: '900',
   },
   blockLabel: {
     color: palette.muted,

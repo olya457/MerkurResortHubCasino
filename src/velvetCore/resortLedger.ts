@@ -331,7 +331,7 @@ export const plates: PlateNote[] = [
 ];
 
 export const todayOffer = {
-  title: 'Casino Evening Package',
-  text: 'Exclusive access to the grand gaming floor with complimentary cocktails.',
+  title: 'Evening Resort Plan',
+  text: 'Save dinner ideas, wellness stops, transfer notes, and events for quick access during your stay.',
   image: resortArt.lounge,
 };

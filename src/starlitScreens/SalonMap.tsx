@@ -1,16 +1,35 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {ScreenChrome} from '../velvetUi/ScreenChrome';
 import {SectionTitle} from '../velvetUi/SectionTitle';
 import {InfoLine} from '../velvetUi/InfoLine';
+import {FadeLift} from '../velvetUi/FadeLift';
 import {palette} from '../velvetCore/palette';
 import {venues} from '../velvetCore/resortLedger';
+import {storageKeys} from '../velvetCore/storageKeys';
 import type {VenueNote} from '../velvetCore/types';
 
 export function SalonMap(): React.JSX.Element {
   const [chosen, setChosen] = useState<VenueNote | null>(null);
+  const [saved, setSaved] = useState<string[]>([]);
+
+  useEffect(() => {
+    AsyncStorage.getItem(storageKeys.savedVenues).then(value => {
+      if (value) {
+        setSaved(JSON.parse(value));
+      }
+    });
+  }, []);
+
+  const toggleSaved = async (id: string) => {
+    const next = saved.includes(id) ? saved.filter(item => item !== id) : [...saved, id];
+    setSaved(next);
+    await AsyncStorage.setItem(storageKeys.savedVenues, JSON.stringify(next));
+  };
 
   if (chosen) {
+    const isSaved = saved.includes(chosen.id);
     return (
       <ScreenChrome>
         <Pressable style={styles.backButton} onPress={() => setChosen(null)}>
@@ -24,6 +43,9 @@ export function SalonMap(): React.JSX.Element {
           </View>
           <InfoLine marker="▪" text={chosen.hours} />
           <InfoLine marker="▪" text={chosen.phone} />
+          <Pressable style={[styles.saveButton, isSaved && styles.saveButtonActive]} onPress={() => toggleSaved(chosen.id)}>
+            <Text style={styles.saveText}>{isSaved ? 'SAVED TO STAY PLAN' : 'SAVE TO STAY PLAN'}</Text>
+          </Pressable>
           <View style={styles.rule} />
           <Text style={styles.copy}>{chosen.description}</Text>
         </View>
@@ -33,21 +55,41 @@ export function SalonMap(): React.JSX.Element {
 
   return (
     <ScreenChrome>
-      <SectionTitle kicker="EXPLORE" title="Venues" />
-      {venues.map(venue => (
-        <Pressable key={venue.id} style={styles.card} onPress={() => setChosen(venue)}>
-          <Image source={venue.image} style={styles.image} />
-          <View style={styles.cardBody}>
-            <View style={styles.backRow}>
-              <View style={styles.cardText}>
-                <Text style={styles.cardTitle}>{venue.name}</Text>
-                <Text style={styles.sub}>{venue.hours}</Text>
-                <Text style={styles.sub}>{venue.phone}</Text>
-              </View>
-              <Text style={styles.chevron}>›</Text>
+      <SectionTitle
+        kicker="EXPLORE"
+        title="Venues"
+        right={
+          saved.length > 0 ? (
+            <View style={styles.counter}>
+              <Text style={styles.counterText}>{saved.length}</Text>
             </View>
-          </View>
-        </Pressable>
+          ) : null
+        }
+      />
+      {saved.length > 0 && (
+        <FadeLift style={styles.savedPanel}>
+          <Text style={styles.savedTitle}>Saved for this stay</Text>
+          <Text style={styles.savedCopy}>
+            {venues.filter(venue => saved.includes(venue.id)).map(venue => venue.name).join(' · ')}
+          </Text>
+        </FadeLift>
+      )}
+      {venues.map((venue, index) => (
+        <FadeLift key={venue.id} delay={index * 35}>
+          <Pressable style={styles.card} onPress={() => setChosen(venue)}>
+            <Image source={venue.image} style={styles.image} />
+            <View style={styles.cardBody}>
+              <View style={styles.backRow}>
+                <View style={styles.cardText}>
+                  <Text style={styles.cardTitle}>{venue.name}</Text>
+                  <Text style={styles.sub}>{venue.hours}</Text>
+                  <Text style={styles.sub}>{venue.phone}</Text>
+                </View>
+                <Text style={styles.chevron}>{saved.includes(venue.id) ? '★' : '›'}</Text>
+              </View>
+            </View>
+          </Pressable>
+        </FadeLift>
       ))}
     </ScreenChrome>
   );
@@ -91,6 +133,54 @@ const styles = StyleSheet.create({
   chevron: {
     color: palette.gold,
     fontSize: 30,
+  },
+  counter: {
+    alignItems: 'center',
+    borderColor: palette.gold,
+    borderWidth: 1,
+    height: 34,
+    justifyContent: 'center',
+    width: 34,
+  },
+  counterText: {
+    color: palette.gold,
+    fontSize: 13,
+    fontWeight: '900',
+  },
+  savedPanel: {
+    borderColor: palette.gold,
+    borderWidth: 1,
+    marginBottom: 15,
+    padding: 14,
+  },
+  savedTitle: {
+    color: palette.text,
+    fontSize: 13,
+    fontWeight: '900',
+  },
+  savedCopy: {
+    color: palette.muted,
+    fontSize: 12,
+    lineHeight: 18,
+    marginTop: 7,
+  },
+  saveButton: {
+    alignItems: 'center',
+    borderColor: palette.line,
+    borderWidth: 1,
+    height: 48,
+    justifyContent: 'center',
+    marginTop: 16,
+  },
+  saveButtonActive: {
+    borderColor: palette.gold,
+    backgroundColor: 'rgba(247, 195, 54, 0.06)',
+  },
+  saveText: {
+    color: palette.gold,
+    fontSize: 11,
+    fontWeight: '900',
+    letterSpacing: 3,
   },
   hero: {
     height: 174,
