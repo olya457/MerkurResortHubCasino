@@ -1,4 +1,4 @@
-package com.merkurresorthubcasino
+package com.stay.companion
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate

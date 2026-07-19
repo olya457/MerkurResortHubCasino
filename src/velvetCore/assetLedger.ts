@@ -1,6 +1,6 @@
 export const arrivalArt = {
-  entrance: require('../assets/aureoleGate/merkur_aureole_arrival_7401.png'),
-  sigil: require('../assets/aureoleGate/merkur_small_sigil_7402.png'),
+  entrance: require('../assets/aureoleGate/stay_companion_arrival_7401.png'),
+  sigil: require('../assets/aureoleGate/stay_companion_sigil_7402.png'),
 };
 
 export const preludeArt = [

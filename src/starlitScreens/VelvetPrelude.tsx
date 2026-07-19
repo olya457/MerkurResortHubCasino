@@ -24,8 +24,8 @@ type Props = {
 const slides = [
   {
     kicker: 'WELCOME',
-    title: 'Experience MERKUR Resort',
-    text: "Unparalleled luxury at the heart of Germany's finest casino resort.",
+    title: 'Experience Stay Companion',
+    text: "Unparalleled comfort throughout your stay.",
   },
   {
     kicker: 'YOUR STAY',

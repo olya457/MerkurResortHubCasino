@@ -178,7 +178,7 @@ export function TaxiRibbon(): React.JSX.Element {
       </View>
       <Text style={styles.label}>PICKUP LOCATION</Text>
       <View style={styles.field}>
-        <Text style={styles.inputText}>MERKUR Resort, Main Entrance</Text>
+        <Text style={styles.inputText}>Stay Companion, Main Entrance</Text>
       </View>
       <Text style={styles.label}>DESTINATION</Text>
       <CompactKeyboardInput

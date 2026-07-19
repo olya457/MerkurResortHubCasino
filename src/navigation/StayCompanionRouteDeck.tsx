@@ -7,12 +7,12 @@ import {ConciergeWire} from '../starlitScreens/ConciergeWire';
 import {CulinaryLedger} from '../starlitScreens/CulinaryLedger';
 import {SalonMap} from '../starlitScreens/SalonMap';
 import {TaxiRibbon} from '../starlitScreens/TaxiRibbon';
-import type {MerkurTabParamList} from '../velvetCore/routeTypes';
+import type {StayCompanionTabParamList} from '../velvetCore/routeTypes';
 import {palette} from '../velvetCore/palette';
 import {FloatingResortBar} from './FloatingResortBar';
 import type {BottomTabBarProps} from '@react-navigation/bottom-tabs';
 
-const Tab = createBottomTabNavigator<MerkurTabParamList>();
+const Tab = createBottomTabNavigator<StayCompanionTabParamList>();
 
 const theme = {
   ...DefaultTheme,
@@ -29,7 +29,7 @@ function renderFloatingBar(props: BottomTabBarProps) {
   return <FloatingResortBar {...props} />;
 }
 
-export function MerkurRouteDeck(): React.JSX.Element {
+export function StayCompanionRouteDeck(): React.JSX.Element {
   return (
     <NavigationContainer theme={theme}>
       <Tab.Navigator

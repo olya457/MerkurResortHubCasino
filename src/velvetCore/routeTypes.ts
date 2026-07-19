@@ -1,4 +1,4 @@
-export type MerkurTabParamList = {
+export type StayCompanionTabParamList = {
   AmberDesk: undefined;
   SalonMap: undefined;
   CulinaryLedger: undefined;

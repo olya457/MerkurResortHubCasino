@@ -1,4 +1,4 @@
-package com.merkurresorthubcasino
+package com.stay.companion
 
 import android.app.Application
 import com.facebook.react.PackageList

@@ -12,8 +12,8 @@ import {arrivalArt, resortArt} from '../velvetCore/assetLedger';
 import {palette} from '../velvetCore/palette';
 
 export function AureoleArrival(): React.JSX.Element {
-  const {width} = useWindowDimensions();
-  const logoSize = Math.min(width * 1.24, 500);
+  const {height, width} = useWindowDimensions();
+  const logoSize = Math.min(width * 0.56, height * 0.28, 240);
   const copyGlow = useRef(new Animated.Value(0)).current;
   const sigilGlow = useRef(new Animated.Value(0)).current;
   const floatLoop = useRef(new Animated.Value(0)).current;
@@ -80,11 +80,10 @@ export function AureoleArrival(): React.JSX.Element {
           },
         ]}>
         <Text style={styles.title}>
-          Merkur Resort{'\n'}Hub Casino
+          Stay{'\n'}Companion
         </Text>
         <Text style={styles.subtitle}>All Resort Services Here</Text>
       </Animated.View>
-      <View style={styles.spacer} />
       <Animated.View
         style={[
           styles.sigilWrap,
@@ -136,13 +135,12 @@ const styles = StyleSheet.create({
     marginTop: 12,
     opacity: 0.94,
   },
-  spacer: {
-    flex: 1,
-  },
   sigilWrap: {
+    ...StyleSheet.absoluteFillObject,
     alignItems: 'center',
-    alignSelf: 'center',
-    marginBottom: 122,
+    justifyContent: 'center',
+    paddingHorizontal: 24,
+    paddingVertical: 24,
     shadowColor: '#F9C73D',
     shadowOffset: {
       width: 0,
