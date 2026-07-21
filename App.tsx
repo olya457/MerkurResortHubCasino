@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {AureoleArrival} from './src/starlitScreens/AureoleArrival';
 import {VelvetPrelude} from './src/starlitScreens/VelvetPrelude';
-import {StayCompanionRouteDeck} from './src/navigation/StayCompanionRouteDeck';
+import {GrandGuestHubRouteDeck} from './src/navigation/GrandGuestHubRouteDeck';
 import {storageKeys} from './src/velvetCore/storageKeys';
 
 function App(): React.JSX.Element {
@@ -24,7 +24,7 @@ function App(): React.JSX.Element {
       <StatusBar barStyle="light-content" backgroundColor="#061423" />
       {gate === 'arrival' && <AureoleArrival />}
       {gate === 'prelude' && <VelvetPrelude onDone={() => setGate('deck')} />}
-      {gate === 'deck' && <StayCompanionRouteDeck />}
+      {gate === 'deck' && <GrandGuestHubRouteDeck />}
     </SafeAreaProvider>
   );
 }

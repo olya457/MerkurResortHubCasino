@@ -80,9 +80,9 @@ export function AureoleArrival(): React.JSX.Element {
           },
         ]}>
         <Text style={styles.title}>
-          Stay{'\n'}Companion
+          Grand Guest{'\n'}Hub
         </Text>
-        <Text style={styles.subtitle}>All Resort Services Here</Text>
+        <Text style={styles.subtitle}>Every Guest Service in One Place</Text>
       </Animated.View>
       <Animated.View
         style={[

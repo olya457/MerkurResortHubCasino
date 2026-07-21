@@ -6,7 +6,7 @@ import {SectionTitle} from '../velvetUi/SectionTitle';
 import {palette} from '../velvetCore/palette';
 import {resortArt} from '../velvetCore/assetLedger';
 import {todayOffer} from '../velvetCore/resortLedger';
-import type {StayCompanionTabParamList} from '../velvetCore/routeTypes';
+import type {GrandGuestHubTabParamList} from '../velvetCore/routeTypes';
 
 const stayDates = [
   '18 - 21 Jul',
@@ -19,7 +19,7 @@ const stayDates = [
 const stayRooms = ['204', '318', '512', '724', '806', '912'];
 
 export function AmberDesk(): React.JSX.Element {
-  const navigation = useNavigation<NavigationProp<StayCompanionTabParamList>>();
+  const navigation = useNavigation<NavigationProp<GrandGuestHubTabParamList>>();
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedRoom, setSelectedRoom] = useState('');
   const [isStayPickerOpen, setStayPickerOpen] = useState(false);

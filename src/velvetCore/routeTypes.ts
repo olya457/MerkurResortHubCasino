@@ -1,4 +1,4 @@
-export type StayCompanionTabParamList = {
+export type GrandGuestHubTabParamList = {
   AmberDesk: undefined;
   SalonMap: undefined;
   CulinaryLedger: undefined;

@@ -24,23 +24,23 @@ type Props = {
 const slides = [
   {
     kicker: 'WELCOME',
-    title: 'Experience Stay Companion',
-    text: "Unparalleled comfort throughout your stay.",
+    title: 'Welcome to Grand Guest Hub',
+    text: 'Everything you need for a seamless stay is right at your fingertips.',
   },
   {
     kicker: 'YOUR STAY',
-    title: 'The Perfect Room Awaits',
-    text: 'Discover exclusive suites and rooms designed for the discerning traveller.',
+    title: 'Your Stay, Made Simple',
+    text: 'Explore your room details and request hotel services whenever you need them.',
   },
   {
-    kicker: 'CULINARY',
-    title: 'Dine in True Excellence',
-    text: 'From haute cuisine to casual dining, every meal is an unforgettable experience.',
+    kicker: 'DISCOVER',
+    title: 'Dining and Experiences',
+    text: 'Discover restaurants, hotel amenities and memorable experiences in one place.',
   },
   {
     kicker: 'BEGIN',
-    title: 'Your Journey Starts Here',
-    text: 'Your personal concierge is ready to make every moment truly exceptional.',
+    title: 'Your Personal Guest Hub',
+    text: 'Connect with the concierge and enjoy effortless service throughout your stay.',
   },
 ];
 
